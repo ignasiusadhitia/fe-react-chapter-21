@@ -1,57 +1,57 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-// Komponen UserCard yang menampilkan informasi pengguna
-const UserCard = (props) => {
-  const { name, age, isAdmin, hobbies } = props.user;
-
+// Definisikan komponen ChildComp dengan berbagai props dan validasi tipe data
+const ChildComp = ({ string, number, boolean, array, object, items, user }) => {
   return (
     <div>
-      <h2>
-        {name} (Age: {age})
-      </h2>
-      <p>{isAdmin ? "Admin" : "User"}</p>
-      <h3>Hobbies:</h3>
-      <ul>
-        {hobbies.map((hobby, index) => (
-          <li key={index}>{hobby}</li>
-        ))}
-      </ul>
+      <h2>Contoh Validasi PropTypes di React</h2>
+      <p>String: {string}</p>
+      <p>Number: {number}</p>
+      <p>Boolean: {boolean ? 'True' : 'False'}</p>
+      <p>Array: {array.join(', ')}</p>
+      <p>Object: {JSON.stringify(object)}</p>
+      <p>Items Array: {items ? items.join(', ') : 'No items provided'}</p>
+      <p>User Info: {user ? `Name: ${user.name}, Age: ${user.age}` : 'No user info provided'}</p>
     </div>
   );
 };
 
-// Validasi props dengan PropTypes
-UserCard.propTypes = {
+// Menambahkan validasi tipe properti menggunakan PropTypes
+ChildComp.propTypes = {
+  string: PropTypes.string.isRequired,        // Harus bertipe string
+  number: PropTypes.number.isRequired,        // Harus bertipe number
+  boolean: PropTypes.bool.isRequired,         // Harus bertipe boolean
+  array: PropTypes.array.isRequired,          // Harus bertipe array
+  object: PropTypes.object.isRequired,        // Harus bertipe object
+  items: PropTypes.arrayOf(PropTypes.string), // Array yang hanya berisi string
   user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
-    isAdmin: PropTypes.bool.isRequired,
-    hobbies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
+    name: PropTypes.string.isRequired,        // name wajib bertipe string
+    age: PropTypes.number.isRequired          // age wajib bertipe number
+  })
 };
 
-// Komponen utama App yang merender UserCard
+// Definisikan komponen utama App yang akan mengirim props ke ChildComp
 const App = () => {
-  const user1 = {
-    name: "John Doe",
-    age: 28,
-    isAdmin: true,
-    hobbies: ["Reading", "Gaming", "Traveling"],
-  };
-
-  const user2 = {
-    name: "Jane Smith",
-    age: 22,
-    isAdmin: false,
-    hobbies: ["Cooking", "Cycling"],
-  };
+  const sampleString = "Hello, React!";
+  const sampleNumber = 42;
+  const sampleBoolean = true;
+  const sampleArray = ["React", "PropTypes", "Validation"];
+  const sampleObject = { key: "value" };
+  const sampleItems = ["Item1", "Item2", "Item3"];
+  const sampleUser = { name: "John Doe", age: 30 };
 
   return (
     <div>
-      <h1>User List</h1>
-      <UserCard user={user1} />
-      <UserCard user={user2} />
+      <ChildComp
+        string={sampleString}
+        number={sampleNumber}
+        boolean={sampleBoolean}
+        array={sampleArray}
+        object={sampleObject}
+        items={sampleItems}
+        user={sampleUser}
+      />
     </div>
   );
 };
